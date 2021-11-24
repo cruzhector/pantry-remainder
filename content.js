@@ -7,15 +7,47 @@
  *
  */
 
-// active link is for getting the pantry request day, nav-link active is-active class will hold the value.
+var phoneNumber = "";
+// activelink is for getting the pantry request day, nav-link active is-active class will hold the value.
 var activeLink = document.getElementsByClassName("nav-link active is-active");
-// user name is for getting the name of the student, toolbar-item-user id will hold the value.
+// username is for getting the name of the student, toolbar-item-user id will hold the value.
 var userName = document.getElementById("toolbar-item-user");
+//timerange holds the time the student choose.
+var timeRange = document.getElementById("time"); //TODO: should change the ID.
+//formSubmit holds the pantry form element.
+var formSubmit = document.getElementById("submit"); //TODO: should change the ID.
+
 console.log(userName.textContent);
 console.log(activeLink[0].textContent);
+console.log(timeRange.textContent);
 
-//TODO: Get the time from the drop down and store it in a variable
-//TODO: add onclick function to listen on the submit form.
+/**
+ * This function gets the phone number from chrome storage.
+ */
+function getPhoneNumber() {
+  chrome.storage.sync.get(["phoneNumber"], function (result) {
+    if (result.phoneNumber) {
+      phoneNumber = result.phoneNumber;
+    }
+  });
+}
+
+/**
+ * This function formats the final message which has to be sent to the student.
+ *
+ * @returns formatted message.
+ */
+function preparePayload() {
+  return (
+    "Hello " +
+    userName +
+    "your " +
+    activeLink +
+    " is scheduled for " +
+    timeRange +
+    "please be on time. Thank you."
+  );
+}
 
 /**
  * This function uses textbelt api and sends SMS to the student.
@@ -45,3 +77,8 @@ function sendSMS(phnNum, message) {
       console.log(e);
     });
 }
+
+// listens on pantry form submit and sends message to the student phone number.
+formSubmit.onclick = function () {
+  sendSMS(phoneNumber, preparePayload());
+};

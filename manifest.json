@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Pantry remainder",
-  "description": "Launcher",
+  "name": "Pantry Remainder",
+  "description": "A simple extension for sending pantry date and time as SMS to the student.",
   "version": "1.0.0",
   "browser_action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["storage","activeTab", "tabs", "background","scripting"],
+  "permissions": ["storage","activeTab", "tabs", "background"],
   "content_scripts": [
     {
       "matches": ["https://ninerpantry.charlotte.edu/*"],
