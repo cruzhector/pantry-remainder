@@ -8,6 +8,7 @@
  */
 
 var phoneNumber = "";
+getPhoneNumber();
 // activelink is for getting the pantry request day, nav-link active is-active class will hold the value.
 var activeLink = document.getElementsByClassName("nav-link active is-active");
 // username is for getting the name of the student, toolbar-item-user id will hold the value.

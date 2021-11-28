@@ -1,33 +1,59 @@
+const SID = "AC7cbc7d31f69775695224e3efded966a3";
+const AUTH_TOKEN = "80b21f59939049d28dc8ab85729ac3f0";
+const NUMBER = "+13605159110";
+const BASE64 =
+  "QUM3Y2JjN2QzMWY2OTc3NTY5NTIyNGUzZWZkZWQ5NjZhMzo4MGIyMWY1OTkzOTA0OWQyOGRjOGFiODU3MjlhYzNmMA==";
+
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
-  sendSMS(msg.phoneNumber, msg.payload);
-  //sendSMS("+19803279970", msg.text);
-  sendResponse("success");
+  // create form data
+  var formData = {
+    To: msg.phoneNumber,
+    From: NUMBER,
+    Body: msg.payload,
+  };
+  // call twilio API.
+  sendSMS(getEncodedFormData(formData), sendResponse);
+  return true;
 });
+
+/**
+ * This function returns URI encoded form data from json object.
+ *
+ * @param {Array} formData .
+ */
+function getEncodedFormData(formData) {
+  var formBody = [];
+  for (var property in formData) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(formData[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+  return formBody;
+}
 
 /**
  * This function uses textbelt api and sends SMS to the student.
  *
- * @param {String} phnNum Recievers phone number.
- * @param {String} message Content of the message.
+ * @param {Array} formBody URI encoded body.
+ * @param {Function} sendResponse a callback function to content.js
  */
-function sendSMS(phnNum, message) {
-  fetch("https://textbelt.com/text", {
-    method: "post",
+function sendSMS(formBody, sendResponse) {
+  fetch(`https://api.twilio.com/2010-04-01/Accounts/${SID}/Messages.json`, {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      Authorization: `Basic ${BASE64}`,
     },
-    body: JSON.stringify({
-      phone: phnNum,
-      message: message,
-      key: "textbelt",
-    }),
+    body: formBody,
   })
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
+      sendResponse(data);
     })
     .catch((e) => {
       console.log(e);
