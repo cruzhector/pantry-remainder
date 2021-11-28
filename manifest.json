@@ -3,6 +3,9 @@
   "name": "Pantry Remainder",
   "description": "A simple extension for sending pantry date and time as SMS to the student.",
   "version": "1.0.0",
+  "background": {
+    "scripts": ["background.js"]
+  },
   "browser_action": {
     "default_popup": "popup.html"
   },
