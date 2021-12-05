@@ -22,10 +22,6 @@ var formSubmit = document.getElementById("edit-submit"); //TODO: should change t
 var errorLabel = document.getElementsByClassName(
   "alert alert-dismissible fade show col-12 alert-danger"
 );
-console.log(errorLabel.length);
-console.log(userName.textContent);
-console.log(activeLink[0].textContent);
-console.log(timeRange[0].textContent);
 
 /**
  * This function gets the phone number from chrome storage.
@@ -68,8 +64,7 @@ formSubmit.onclick = function () {
     payload: payload,
   };
   console.log(ipcMessage);
-  // if (errorLabel.length == 0) {
-  // }
+
   chrome.runtime.sendMessage(ipcMessage, function (response) {
     console.log("Response: ", response);
   });

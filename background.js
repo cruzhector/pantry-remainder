@@ -1,8 +1,7 @@
 const SID = "AC7cbc7d31f69775695224e3efded966a3";
-const AUTH_TOKEN = "80b21f59939049d28dc8ab85729ac3f0";
 const NUMBER = "+13605159110";
 const BASE64 =
-  "QUM3Y2JjN2QzMWY2OTc3NTY5NTIyNGUzZWZkZWQ5NjZhMzo4MGIyMWY1OTkzOTA0OWQyOGRjOGFiODU3MjlhYzNmMA==";
+  "QUM3Y2JjN2QzMWY2OTc3NTY5NTIyNGUzZWZkZWQ5NjZhMzpjMDI5YTlkMDg0NWQ3OGJiNGEyYWNhOTZkNzU1YWQ5NQ==";
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
   console.log("Received %o from %o, frame", msg, sender.tab, sender.frameId);
